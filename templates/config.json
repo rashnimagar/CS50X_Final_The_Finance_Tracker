@@ -1,0 +1,11 @@
+{
+  "params": {
+    "secret_key": "my-finance-tracker",
+    "web_name": "My Finance Tracker",
+    "web_title": "Welcome to My Finance Tracker",
+    "about_text": "Track your finances easily and efficiently.",
+    "fb_url": "https://www.facebook.com/share/15U3vDnpgqw/",
+    "ig_url": "https://www.instagram.com/rashnimagar/",
+    "gh_url": "https://github.com/rashnimagar"
+  }
+}

@@ -1,0 +1,47 @@
+/* Slightly taller navbar */
+.navbar {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* Navbar brand bigger and extra left/right padding */
+.navbar-brand {
+  font-size: 1.7rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Navbar links bigger with more padding + extra left/right spacing */
+.navbar .nav-link {
+  font-size: 1.1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.2rem; /* increased horizontal padding */
+  padding-right: 1.2rem; /* increased horizontal padding */
+  transition: color 0.3s;
+}
+
+/* Navbar link hover */
+.navbar .nav-link:hover {
+  color: #ffcc00 !important;
+}
+
+/* Body background between white and grey */
+.bg-light-gray {
+  background-color: #e6e6e6 !important; /* light gray, easy on eyes */
+}
+
+/* Flash alerts */
+.alert {
+  background-color: #444 !important;
+  color: #ffcc00 !important;
+  border-radius: 0.25rem;
+}
+
+/* Main container card style */
+main.container {
+  background-color: #ffffff; /* white for main content to contrast slightly with body */
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}

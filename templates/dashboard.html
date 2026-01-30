@@ -1,0 +1,162 @@
+{% extends "layout.html" %} {% block title %}Dashboard{% endblock %} {% block
+main %}
+<div class="container px-4 px-lg-5 pt-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-12 d-flex justify-content-center">
+      <!-- Buttons -->
+      <div class="mb-4 d-flex justify-content-center gap-3 flex-wrap">
+        {% if not is_month_closed %}
+        <a class="btn btn-success text-uppercase" href="/expense/0">
+          Add New Expense
+        </a>
+        <a class="btn btn-secondary text-uppercase" href="/set_budget">
+          Set Budget
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- input month to see expenses of that month -->
+  <div class="d-flex justify-content-center mb-4">
+    <form
+      action="/dashboard"
+      method="post"
+      class="d-flex flex-column flex-sm-row align-items-end gap-2"
+      style="color: black; text-align: center"
+    >
+      {{ form.hidden_tag() }}
+      <div class="mb-0">
+        {{ form.selected_month.label(class="form-label") }} {{
+        form.selected_month(class="form-control", type="month",
+        max=current_month) }}
+      </div>
+
+      <button type="submit" class="btn btn-dark mt-2 mt-sm-0 text-light">
+        Enter
+      </button>
+    </form>
+  </div>
+
+  <!-- Table for expenses -->
+  <div class="table-responsive">
+    <h3 style="color: black">Expenses for {{ selected_month }}</h3>
+    <table class="table table-hover table-bordered align-middle">
+      <caption class="text-muted">
+        List of expenses
+      </caption>
+
+      <!-- Table Head -->
+      <thead class="table-dark text-center">
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Name</th>
+          <th scope="col">Amount</th>
+          {% if not is_month_closed %}
+          <th scope="col">Action</th>
+          {% endif %}
+        </tr>
+      </thead>
+
+      <!-- Table Body -->
+      <tbody class="small text-dark">
+        {% if budget %} {% for expense in expenses %}
+        <tr>
+          <td class="text-center">{{ expense.date }}</td>
+          <td>{{ expense.name }}</td>
+          <td>{{ expense.amount | usd }}</td>
+
+          <!-- Action column -->
+          {% if not is_month_closed %}
+          <td
+            class="text-center"
+            style="white-space: nowrap; width: 1%; padding: 0 15px"
+          >
+            <a
+              class="btn btn-outline-primary btn-sm"
+              href="/expense/{{ expense.id }}"
+              >Edit</a
+            >
+            <a
+              class="btn btn-outline-danger btn-sm"
+              href="/delete_expense/{{ expense.id }}"
+              >Delete</a
+            >
+          </td>
+          {% endif %}
+        </tr>
+
+        {% else %}
+        <tr>
+          <td colspan="4" class="text-center text-muted">
+            No expenses for this month yet.
+          </td>
+        </tr>
+        {% endfor %} {% else %}
+        <p class="text-warning">
+          No budget set for {{ selected_month }}. Please set a budget first.
+        </p>
+        {% endif %}
+      </tbody>
+      {% if budget %}
+      <tfoot>
+        {% if not is_month_closed %}
+        <tr>
+          <td colspan="3" class="border-0 fw-bold text-end">Total Budget:</td>
+          <td class="border-0 w-bold text-end">{{ total_budget | usd }}</td>
+        </tr>
+        <tr>
+          <td colspan="3" class="border-0 fw-bold text-end">Total Expenses:</td>
+          <td class="border-0 w-bold text-end">{{ total_expense | usd }}</td>
+        </tr>
+        <tr>
+          <td colspan="3" class="border-0 fw-bold text-end">
+            Remaining Budget:
+          </td>
+          <td class="border-0 w-bold text-end">
+            {{ (total_budget - total_expense) | usd }}
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="2" class="border-0 fw-bold text-end">Total Budget:</td>
+          <td class="border-0 w-bold text-end">{{ total_budget | usd }}</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="border-0 fw-bold text-end">Total Expenses:</td>
+          <td class="border-0 w-bold text-end">{{ total_expense | usd }}</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="border-0 fw-bold text-end">
+            Remaining Budget:
+          </td>
+          <td class="border-0 w-bold text-end">
+            {{ (total_budget - total_expense) | usd }}
+          </td>
+        </tr>
+        {% endif %}
+      </tfoot>
+      {% endif %}
+    </table>
+  </div>
+
+  {% if selected_month %} {% if not is_month_closed %}
+  <!-- Close Month Button in Center -->
+  <div class="mb-4 d-flex justify-content-center text-dark">
+    <form
+      action="{{ url_for('close_month', month=selected_month) }}"
+      method="post"
+    >
+      {{ form.hidden_tag() }}
+      <button type="submit" class="btn btn-danger text-uppercase">
+        Close Month
+      </button>
+    </form>
+  </div>
+  {% else %}
+  <div class="mb-4 d-flex justify-content-center text-dark">
+    <p>This month is closed.</p>
+  </div>
+  {% endif %} {% endif %}
+</div>
+{% endblock %}

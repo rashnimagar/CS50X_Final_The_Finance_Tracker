@@ -1,0 +1,43 @@
+{% extends "layout.html" %} {% block title %}Set Budget{% endblock %} {% block
+main %}
+<!-- Main content -->
+<main class="flex-fill d-flex align-items-center justify-content-center">
+  <div class="card p-4 shadow" style="max-width: 450px; width: 100%">
+    <h2 class="card-title text-center mb-4">Set Budget</h2>
+
+    <!-- Set Budget -->
+    <form action="/set_budget" method="post">
+      {{ form.hidden_tag() }}
+      <div class="mb-3">
+        {{ form.month.label(class="form-label") }} {{
+        form.month(class="form-control", max=current_month, type="month") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.amount.label(class="form-label") }} {{
+        form.amount(class="form-control", type="number") }}
+      </div>
+
+      {{ form.submit(class="btn btn-dark w-100 mt-2") }}
+    </form>
+
+    <p class="text-center mt-3">
+      Done with setting budget?
+      <a href="/dashboard">&larr; Back to Dashboard</a>
+    </p>
+  </div>
+</main>
+
+<script>
+  const monthInput = document.querySelector('input[type="month"]');
+  const currentMonth = "{{ current_month }}";
+
+  monthInput.addEventListener("change", () => {
+    if (monthInput.value > currentMonth) {
+      alert("Future months are not allowed.");
+      monthInput.value = "";
+    }
+  });
+</script>
+
+{% endblock %}
