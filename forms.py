@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired, NumberRange, Regexp
 class RegisterForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
-    confirmation = PasswordField("Password", validators=[DataRequired()])
+    confirmation = PasswordField("Confirmation", validators=[DataRequired()])
     submit = SubmitField("Register")
 
 #login form
